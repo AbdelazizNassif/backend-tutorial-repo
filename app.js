@@ -14,8 +14,11 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
-app.use((req, res, next) => {
-  console.log('Hello from the middleware 👋');
+app.all('*', (req, res, next) => {
+  res.status(404).json({
+    status: 'failed',
+    message: `can not find original url ${req.originalUrl}`
+  });
   next();
 });
 
